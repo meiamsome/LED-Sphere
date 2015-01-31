@@ -1,11 +1,13 @@
 #include "LEDController.h"
 
-LEDController::LEDController(Animation anim)
+LEDController::LEDController(Animation *anim, RPMCounter &r)
 {
-    this.leds = BusOut(p17, p18, p19, p20, p21, p22, p23, p24);
-    this.clock = DigitalOut(p14);
-    this.outputEnable = DigitalOut(p13);
-    this.anim = anim;
+    this->anim = anim;
+    this->rpmCounter = r;
+
+    this->leds = BusOut(p17, p18, p19, p20, p21, p22, p23, p24);
+    this->clock = DigitalOut(p14);
+    this->outputEnable = DigitalOut(p13);
     w = 64;
     h = 64;
     colourDepth = 1;
@@ -31,10 +33,11 @@ void LEDController::streamFrames(){
         int drawLinePeriod = rpmCounter.getMs() / w * 1000;
         lineTicker.attach_us(this, & LEDController::drawLine, drawLinePeriod)
 
-        anim.beginFrame();
-        anim.renderFrame();
-        currFrame = anim.getFramePointer();
+        anim->beginFrame();
+        anim->renderFrame();
+        currFrame = anim->getFrame();
 
+        //
         if(currFrame == NULL){
             streaming = false;
         }
@@ -47,7 +50,7 @@ void LEDController::streamFrames(){
 }
 
 // this might be useful
-void LEDController::interruptVideo(){
+void LEDController::interruptStream(){
     streaming = false;
 }
 

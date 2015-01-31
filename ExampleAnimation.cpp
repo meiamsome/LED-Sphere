@@ -5,10 +5,19 @@ class ExampleAnimation: public Animation {
     private:
         // Set up your 'global' variables here, these keep state between function calls
         int x, y, mode;
+        int w, h, colourDepth;
     public:
         // Constructor must be used if you want to set initial values to your 'global's
         ExampleAnimation() {
             mode = 0;
+            w = h = 64;
+            colourDepth = 1;
+        }
+
+        void setConfig(int w, int h, int colourDepth){
+            this->w = w;
+            this->h = h;
+            this->colourDepth = colourDepth;
         }
 
         // This frame is called when a new frame should be rendered.
@@ -25,7 +34,7 @@ class ExampleAnimation: public Animation {
             //                   number 0-3, where 0 is off, 3 is on and 1 and 2 are in
             //                   between.
             //               Numbers greater than 8 are not allowed.
-            setupFrame(64, 64, 1);
+            setupFrame(w, h, colourDepth);
             // Configure your variables to the new frame.
             // For this case, we have the current pixel being rendered stored as x, y
             // and the current mode (Basically inverts the output every other render)
@@ -42,7 +51,7 @@ class ExampleAnimation: public Animation {
                 // For the example, we make a lattice, where every other LED is on, and they
                 // switch every frame. We simply set the frame data's value on the x, y. The
                 // value to set it at is anywhere from 0 to (2^colour_depth)-1.
-                currFrame.frame_data[x][y] = (x + y + mode) % 2;
+                currFrame->frame_data[x][y] = (x + y + mode) % 2;
             }
             //switch lastFrame for currFrame
             switchFrames();

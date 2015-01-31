@@ -1,5 +1,5 @@
-#ifndef BAI
-#define BAI
+#ifndef BAI_H
+#define BAI_H
 
 #include <cstdlib>
 #include <exception>
@@ -12,11 +12,10 @@ class Animation {
         virtual void beginFrame() = 0;
         virtual void renderFrame() = 0;
 
-        Frame getFrame();
-        Frame *getFramePointer();
+        Frame *getFrame();
     protected:
-        Frame currFrame; 
-        Frame lastFrame;
+        Frame *currFrame; 
+        Frame *lastFrame;
         bool frameRetrieved;
 
         void setupFrame(int width, int height, int colour_depth);

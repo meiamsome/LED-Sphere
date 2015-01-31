@@ -10,7 +10,7 @@ class LEDController {
         DigitalOut outputEnable;
 
         // Frame related stuff
-        Animation anim;
+        Animation *anim;
         Frame *currFrame;
         bool streaming;
 
@@ -19,10 +19,13 @@ class LEDController {
         RPMCounter rpmCounter;
         
     public:
-        LEDController;
         int w;
         int h;
         int colourDepth;
-}
 
+        LEDController(Animation *, RPMCounter &);
+        void streamFrames();
+        void interruptStream();
+        Frame getDimensions();
+};
 
