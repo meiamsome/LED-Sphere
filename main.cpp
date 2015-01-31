@@ -1,14 +1,13 @@
 #include "mbed.h"
 #include "BAI.h"
 #include "ExampleAnimation.cpp"
+#include "LEDController.cpp"
 
 BusOut myBus(LED1, LED2, LED3, LED4);
 DigitalIn enable(p19);
 Animation *myAnimation = NULL;
+
 int main() {
-    while(1) {
-        myBus = enable;
-    }
     ExampleAnimation anim;
     myAnimation = &anim;
     myBus = 1;

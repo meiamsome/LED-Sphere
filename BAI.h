@@ -3,25 +3,24 @@
 
 #include <cstdlib>
 #include <exception>
-
-
-typedef struct {
-    int width, height, colour_depth;
-    char **frame_data;
-} Frame;
+#include "utils.h"
 
 class Animation {
     public:
         Animation();
         ~Animation();
         virtual void beginFrame() = 0;
-        virtual Frame animateFrame() = 0;
-    protected:
-        Frame myFrame; 
-        void eraseFrame();
-        void setupFrame(int width, int height, int colour_depth);
+        virtual void renderFrame() = 0;
+
         Frame getFrame();
         Frame *getFramePointer();
+    protected:
+        Frame currFrame; 
+        Frame lastFrame;
+        bool frameRetrieved;
+
+        void setupFrame(int width, int height, int colour_depth);
+        void switchFrames();
 };
 
 /*class FrameConfigurationException: public exception {

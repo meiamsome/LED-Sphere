@@ -35,16 +35,16 @@ class ExampleAnimation: public Animation {
 
         // This is called at least once per frame but can be multiple times. Your program
         // should expect to be rudely interrupted in the middle of any operation and recover.
-        Frame animateFrame() {
+        void renderFrame() {
             // In this example, we start at the current frame always. As we can expect to
             // be interrupted WE CANNOT ASSUME THAT WE ARE STARTING AT THE START OF THE FRAME
             for(; x < 64; x++) for(; y < 64; y ++) {
                 // For the example, we make a lattice, where every other LED is on, and they
                 // switch every frame. We simply set the frame data's value on the x, y. The
                 // value to set it at is anywhere from 0 to (2^colour_depth)-1.
-                myFrame.frame_data[x][y] = (x + y + mode) % 2;
+                currFrame.frame_data[x][y] = (x + y + mode) % 2;
             }
-            // You should always be returning myFrame here.
-            return myFrame;
+            //switch lastFrame for currFrame
+            switchFrames();
         }
 };
