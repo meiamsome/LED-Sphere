@@ -15,14 +15,14 @@ class LEDController {
         bool streaming;
 
         // frame related stuff
-        int w;
-        int h;
-        int colourDepth;
         int linesDrawn;
         RPMCounter rpmCounter;
         
     public:
         LEDController;
+        int w;
+        int h;
+        int colourDepth;
 }
 
 

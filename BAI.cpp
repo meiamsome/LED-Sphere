@@ -2,7 +2,8 @@
 
 // Constructor
 Animation::Animation() {
-    myFrame.frame_data = NULL;
+    lastFrame.frame_data = NULL;
+    currFrame.frame_data = NULL;
 }
 // Deconstructor
 Animation::~Animation() {
