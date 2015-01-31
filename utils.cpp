@@ -17,10 +17,15 @@ RPMCounter::RPMCounter(){
 
 int RPMCounter::getRpm(){
     int sum = std::accumulate(samples.begin(), samples.end(), 0);
-    return (double) (sum / samples.size()) * 1000*60;
+    return (double) (1 / (sum / samples.size())) * 1000 * 60;
 }
 
-int addSample(){
+int RPMCounter::getMs(){
+    int sum = std::accumulate(samples.begin(), samples.end(), 0);
+    return (double) (sum / samples.size());
+}
+
+int RPMCounter::addSample(){
     t.stop();
     samples.push_front(t.read_ms());
     t.reset(); t.start();

@@ -8,13 +8,18 @@ class LEDController {
         BusOut leds;
         DigitalOut clock;
         DigitalOut outputEnable;
-        DigitalIn hallSensor;
 
-        //Get frames from here
+        // Frame related stuff
         Animation anim;
+        Frame *currFrame;
         bool streaming;
 
-        int rpm;
+        // frame related stuff
+        int w;
+        int h;
+        int colourDepth;
+        int linesDrawn;
+        RPMCounter rpmCounter;
         
     public:
         LEDController;
