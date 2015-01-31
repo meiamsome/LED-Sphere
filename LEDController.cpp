@@ -1,17 +1,24 @@
 #include "LEDController.h"
 
-LEDController::LEDController(Animation *anim, RPMCounter &r)
+LEDController::LEDController(Animation *anim, RPMCounter *r)
 {
     this->anim = anim;
     this->rpmCounter = r;
 
-    this->leds = BusOut(p17, p18, p19, p20, p21, p22, p23, p24);
-    this->clock = DigitalOut(p14);
-    this->outputEnable = DigitalOut(p13);
+    //this->leds = new BusOut(p17, p18, p19, p20, p21, p22, p23, p24);
+    this->leds = new BusOut(LED1, LED2, LED3, LED4, LED1, LED2, LED3, LED4);
+    this->clock = new DigitalOut(p14);
+    this->outputEnable = new DigitalOut(p13);
     w = 64;
     h = 64;
     colourDepth = 1;
     linesDrawn = 0;
+}
+
+LEDController::~LEDController(){
+    free(leds);
+    free(clock);
+    free(outputEnable);
 }
 
 Frame LEDController::getDimensions(){
@@ -23,15 +30,14 @@ Frame LEDController::getDimensions(){
 }
 
 void LEDController::streamFrames(){
-    Frame *f;
     Ticker lineTicker;
     Timer t;
 
     t.start();
     streaming = true;
     while(streaming){
-        int drawLinePeriod = rpmCounter.getMs() / w * 1000;
-        lineTicker.attach_us(this, & LEDController::drawLine, drawLinePeriod)
+        int drawLinePeriod = rpmCounter->getMs() / w * 1000;
+        lineTicker.attach_us(this, & LEDController::drawLine, drawLinePeriod);
 
         anim->beginFrame();
         anim->renderFrame();
@@ -54,11 +60,11 @@ void LEDController::interruptStream(){
     streaming = false;
 }
 
-void LEDController:drawLine(){
+void LEDController::drawLine(){
     int val, y;
     int x = linesDrawn;
     int cycle = linesDrawn/colourDepth;
-    char **pic = currFrame->frame_data;
+    char **pic = currFrame->frameData;
 
     for(int i = 0; i < 3; i++){ //red, green, blue
         for(int j = 0; j < 8; j++){ //8 rows
@@ -72,11 +78,12 @@ void LEDController:drawLine(){
                         > cycle         //if > than curr cycle - flash it on
                        ) << k;
             }
-            clock = 1; 
-            outputEnable = 1;
+            *leds = val; //set outputs
+            *clock = 1; //clock it
+            *outputEnable = 1; //write outputs
             wait_us(1); //wait a microsec to make sure it registers
-            clock = 0; //clock up down
-            outputEnable = 0;
+            *outputEnable = 0; //stop writing
+            *clock = 0; //clock down
         }
     }
     linesDrawn = (linesDrawn + 1) % w*colourDepth;

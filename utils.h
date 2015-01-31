@@ -6,8 +6,8 @@
 
 class Frame{
     public: 
-        int width, height, colour_depth;
-        char **frame_data;
+        int width, height, colourDepth;
+        char **frameData;
 
         void freeData();
 };
@@ -18,10 +18,11 @@ class RPMCounter{
         Timer t;
         
     public:
-        int keepSamples;
+        unsigned int keepSamples;
 
         RPMCounter();
         int getRpm();
+        int getMs();
         void addSample();
 };
 

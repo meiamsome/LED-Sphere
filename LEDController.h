@@ -5,9 +5,9 @@
 class LEDController {
     private:
         //LED controls
-        BusOut leds;
-        DigitalOut clock;
-        DigitalOut outputEnable;
+        BusOut *leds;
+        DigitalOut *clock;
+        DigitalOut *outputEnable;
 
         // Frame related stuff
         Animation *anim;
@@ -16,14 +16,16 @@ class LEDController {
 
         // frame related stuff
         int linesDrawn;
-        RPMCounter rpmCounter;
+        RPMCounter *rpmCounter;
         
+        void drawLine();
     public:
         int w;
         int h;
         int colourDepth;
 
-        LEDController(Animation *, RPMCounter &);
+        LEDController(Animation *, RPMCounter *);
+        ~LEDController();
         void streamFrames();
         void interruptStream();
         Frame getDimensions();

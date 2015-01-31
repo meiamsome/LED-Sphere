@@ -3,10 +3,10 @@
 #include "utils.h"
 
 void Frame::freeData(){
-    if(frame_data != NULL) {
+    if(frameData != NULL) {
         for(int i = 0; i < width; i++)
-            free(frame_data[i]);
-        free(frame_data);
+            free(frameData[i]);
+        free(frameData);
     }
 }
 
@@ -25,7 +25,7 @@ int RPMCounter::getMs(){
     return (double) (sum / samples.size());
 }
 
-int RPMCounter::addSample(){
+void RPMCounter::addSample(){
     t.stop();
     samples.push_front(t.read_ms());
     t.reset(); t.start();

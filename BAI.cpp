@@ -2,8 +2,8 @@
 
 // Constructor
 Animation::Animation() {
-    lastFrame->frame_data = NULL;
-    currFrame->frame_data = NULL;
+    lastFrame->frameData = NULL;
+    currFrame->frameData = NULL;
 }
 // Deconstructor
 Animation::~Animation() {
@@ -12,21 +12,21 @@ Animation::~Animation() {
 }
 
 // Set up a new frame
-void Animation::setupFrame(int width, int height, int colour_depth) {
+void Animation::setupFrame(int width, int height, int colourDepth) {
     if(width < 1 || height < 1 ||
-        colour_depth < 1 || colour_depth > 8) {
+        colourDepth < 1 || colourDepth > 8) {
         width = width;
         // we might want to throw this, but idk
         //throw new FrameConfigurationException();
     }
 
-    currFrame->frame_data = (char**) malloc(width * sizeof(char*));
+    currFrame->frameData = (char**) malloc(width * sizeof(char*));
     for(int i = 0; i < width; i++) {
-        currFrame->frame_data[i] = (char*) malloc(height * sizeof(char));
+        currFrame->frameData[i] = (char*) malloc(height * sizeof(char));
     }
     currFrame->width = width;
     currFrame->height = height;
-    currFrame->colour_depth = colour_depth;
+    currFrame->colourDepth = colourDepth;
 }
 
 // Return the current Frame

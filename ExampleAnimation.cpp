@@ -51,7 +51,7 @@ class ExampleAnimation: public Animation {
                 // For the example, we make a lattice, where every other LED is on, and they
                 // switch every frame. We simply set the frame data's value on the x, y. The
                 // value to set it at is anywhere from 0 to (2^colour_depth)-1.
-                currFrame->frame_data[x][y] = (x + y + mode) % 2;
+                currFrame->frameData[x][y] = (x + y + mode) % 2;
             }
             //switch lastFrame for currFrame
             switchFrames();

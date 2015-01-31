@@ -9,11 +9,12 @@ int main() {
     RPMCounter rpmCounter;
     rpmCounter.keepSamples = 5; //this is default, but we can change it
 
-    LEDController ctrl(&anim, rpmCounter);
-
+    LEDController ctrl(&anim, &rpmCounter);
 
     Frame f = ctrl.getDimensions();
-    anim.setConfig(f.width, f.height, f.colour_depth);
+    anim.setConfig(f.width, f.height, f.colourDepth);
 
+    InterruptIn hullInterupt(p12);
+    hullInterupt.rise(&rpmCounter, &RPMCounter::addSample);
     ctrl.streamFrames();
 }
