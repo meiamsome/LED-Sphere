@@ -24,6 +24,7 @@ class LEDController {
         int w;
         int h;
         int colourDepth;
+        int fps;
 
         LEDController(Animation *, RPMCounter *);
         ~LEDController();

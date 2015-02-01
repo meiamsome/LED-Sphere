@@ -27,13 +27,15 @@ RPMCounter::RPMCounter(){
 }
 
 int RPMCounter::getRpm(){
-    int sum = std::accumulate(samples.begin(), samples.end(), 0);
-    return (double) (1 / (sum / samples.size())) * 1000 * 60;
+    return (1 / getMs()) * 1000 * 60;
 }
 
 int RPMCounter::getMs(){
-    int sum = std::accumulate(samples.begin(), samples.end(), 0);
-    return (double) (sum / samples.size());
+    if(!ms){
+        int sum = std::accumulate(samples.begin(), samples.end(), 0);
+        ms = sum / samples.size();
+    }
+    return ms;
 }
 
 void RPMCounter::addSample(){
@@ -43,4 +45,5 @@ void RPMCounter::addSample(){
     if(samples.size() > keepSamples){
         samples.pop_back();
     }
+    ms = 0;
 }

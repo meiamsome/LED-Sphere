@@ -12,6 +12,7 @@ LEDController::LEDController(Animation *anim, RPMCounter *r)
     w = 64;
     h = 64;
     colourDepth = 1;
+    fps = 30;
     linesDrawn = 0;
     currFrame = NULL;
 }
@@ -20,11 +21,6 @@ LEDController::~LEDController(){
     free(leds);
     free(clock);
     free(outputEnable);
-}
-
-Frame LEDController::getDimensions(){
-    Frame f(w, h, colourDepth);
-    return f;
 }
 
 void LEDController::streamFrames(){
@@ -38,7 +34,7 @@ void LEDController::streamFrames(){
     streaming = true;
     while(streaming){
         int drawLinePeriod = rpmCounter->getMs() / w * 1000;
-        lineTicker.attach_us(this, & LEDController::drawLine, 1000000/60);
+        lineTicker.attach_us(this, & LEDController::drawLine, drawLinePeriod);
 
         getFrame();
 
@@ -47,7 +43,7 @@ void LEDController::streamFrames(){
         }
 
         // busy wait to have this going at 30fps
-        while((t.read_ms() < 1000 / 30 / colourDepth) && streaming) {;};
+        while((t.read_ms() < 1000 / fps / colourDepth) && streaming) {;};
         t.reset();
         lineTicker.detach();
     }
@@ -88,6 +84,11 @@ void LEDController::drawLine(){
 }
 
 void LEDController::getFrame(){
+    if(anim->change){
+        w = anim->w; h = anim->h; 
+        colourDepth = anim->colourDepth; fps = anim->fps;
+        anim->change = false;
+    }
     anim->beginFrame();
     anim->renderFrame();
     anim->switchFrames(); //have to switch the frame ourselves

@@ -2,6 +2,10 @@
 
 // Constructor
 Animation::Animation() {
+    change = false;
+    w = h = 64;
+    colourDepth = 1;
+    fps = 30;
     lastFrame = new Frame(64, 64, 1);
     currFrame = new Frame(64, 64, 1);
 }

@@ -5,19 +5,10 @@ class ExampleAnimation: public Animation {
     private:
         // Set up your 'global' variables here, these keep state between function calls
         int x, y, mode;
-        int w, h, colourDepth;
     public:
         // Constructor must be used if you want to set initial values to your 'global's
         ExampleAnimation() {
             mode = 0;
-            w = h = 64;
-            colourDepth = 1;
-        }
-
-        void setConfig(int w, int h, int colourDepth){
-            this->w = w;
-            this->h = h;
-            this->colourDepth = colourDepth;
         }
 
         // This frame is called when a new frame should be rendered.

@@ -14,9 +14,6 @@ int main() {
 
     LEDController ctrl(&anim, &rpmCounter);
 
-    Frame f = ctrl.getDimensions();
-    anim.setConfig(f.width, f.height, f.colourDepth);
-
     InterruptIn hullInterupt(p12);
     hullInterupt.rise(&rpmCounter, &RPMCounter::addSample);
     ctrl.streamFrames();

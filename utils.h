@@ -17,6 +17,7 @@ class RPMCounter{
     private:
         std::list<int> samples;
         Timer t;
+        int ms;
         
     public:
         unsigned int keepSamples;
