@@ -13,13 +13,13 @@ class Animation {
         virtual void renderFrame() = 0;
 
         Frame *getFrame();
+        void switchFrames();
     protected:
         Frame *currFrame; 
         Frame *lastFrame;
         bool frameRetrieved;
 
-        void setupFrame(int width, int height, int colour_depth);
-        void switchFrames();
+        void setupFrame(int width, int height, int colourDepth);
 };
 
 /*class FrameConfigurationException: public exception {

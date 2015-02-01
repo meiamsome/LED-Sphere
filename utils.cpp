@@ -2,7 +2,18 @@
 #include <numeric>
 #include "utils.h"
 
-void Frame::freeData(){
+Frame::Frame(int width, int height, int colourDepth){
+    this->width = width;
+    this->height = height;
+    this->colourDepth = colourDepth;
+
+    frameData = (char**) malloc(width * sizeof(char*));
+    for(int i = 0; i < width; i++) {
+        frameData[i] = (char*) malloc(height * sizeof(char));
+    }
+}
+
+Frame::~Frame(){
     if(frameData != NULL) {
         for(int i = 0; i < width; i++)
             free(frameData[i]);

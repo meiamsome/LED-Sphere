@@ -2,13 +2,13 @@
 
 // Constructor
 Animation::Animation() {
-    lastFrame->frameData = NULL;
-    currFrame->frameData = NULL;
+    lastFrame = new Frame(64, 64, 1);
+    currFrame = new Frame(64, 64, 1);
 }
 // Deconstructor
 Animation::~Animation() {
-    lastFrame->freeData();
-    currFrame->freeData();
+    delete lastFrame;
+    delete currFrame;
 }
 
 // Set up a new frame
@@ -19,14 +19,7 @@ void Animation::setupFrame(int width, int height, int colourDepth) {
         // we might want to throw this, but idk
         //throw new FrameConfigurationException();
     }
-
-    currFrame->frameData = (char**) malloc(width * sizeof(char*));
-    for(int i = 0; i < width; i++) {
-        currFrame->frameData[i] = (char*) malloc(height * sizeof(char));
-    }
-    currFrame->width = width;
-    currFrame->height = height;
-    currFrame->colourDepth = colourDepth;
+    currFrame = new Frame(width, height, colourDepth);
 }
 
 // Return the current Frame
@@ -38,10 +31,11 @@ Frame *Animation::getFrame() {
 void Animation::switchFrames(){
     // if whoever needs the frame has not retrieved, we free it here
     // to prevent memory leaking. if they have retrieved the frame,
-    // we assume it is being used and thus freed by somebody else
+    // we assume it is being used and thus deleted by somebody else
     if(! frameRetrieved){
-        lastFrame->freeData();
+        delete lastFrame;
     }
     frameRetrieved = false;   
+
     lastFrame = currFrame;
 }

@@ -9,7 +9,8 @@ class Frame{
         int width, height, colourDepth;
         char **frameData;
 
-        void freeData();
+        Frame(int, int, int);
+        ~Frame();
 };
 
 class RPMCounter{

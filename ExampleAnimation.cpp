@@ -53,7 +53,5 @@ class ExampleAnimation: public Animation {
                 // value to set it at is anywhere from 0 to (2^colour_depth)-1.
                 currFrame->frameData[x][y] = (x + y + mode) % 2;
             }
-            //switch lastFrame for currFrame
-            switchFrames();
         }
 };

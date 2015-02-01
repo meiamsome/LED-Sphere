@@ -19,6 +19,7 @@ class LEDController {
         RPMCounter *rpmCounter;
         
         void drawLine();
+        void getFrame();
     public:
         int w;
         int h;
